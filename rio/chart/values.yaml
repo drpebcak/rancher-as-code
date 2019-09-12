@@ -1,0 +1,24 @@
+replicas: 1
+image:
+  repository: "strongmonkey1992/rio-controller"
+  tag: "dev"
+  pullPolicy: IfNotPresent
+serviceAccount:
+  create: true
+  name:
+rio:
+  httpsPort: 443
+  httpPort: 80
+  serviceCidr: "10.43.0.1/16"
+  installMode: "ingress"
+  env:
+  # - name: RIO_DEBUG
+  #   value: "false"
+  # - name: IP_ADDRESSES
+  #   value: ""
+  # - name: DISABLE_FEATURES
+  #   value: ""
+  # - name: HTTP_PROXY
+  #   value: ""
+  # - name: INSTALL_MODE
+  #   value: ""

@@ -1,0 +1,44 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: rio-controller
+  labels:
+    app: {{ template "rio.name" . }}
+    chart: {{ template "rio.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      rio-controller: "true"
+  template:
+    metadata:
+      labels:
+        rio-controller: "true"
+    spec:
+      containers:
+      - args:
+        - rio-controller
+        env:
+        - name: RIO_NAMESPACE
+          value: {{ .Release.Namespace }}
+        - name: HTTPS_PORT
+          value: "{{ .Values.rio.httpsPort }}"
+        - name: HTTP_PORT
+          value: "{{ .Values.rio.httpPort }}"
+        - name: SERVICE_CIDR
+          value: "{{ .Values.rio.serviceCidr }}"
+        - name: INSTALL_MODE
+          value: "{{ .Values.rio.installMode }}"
+        {{- if .Values.rio.env }}
+        {{ range $k, $v := .Values.rio.env -}}
+        - name: {{ $v.name }}
+          value: "{{ $v.value }}"
+        {{ end }}
+        {{- end }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        name: rio-controller
+      serviceAccount: {{ template "rio.serviceAccountName" . }}
+      serviceAccountName: {{ template "rio.serviceAccountName" . }}
