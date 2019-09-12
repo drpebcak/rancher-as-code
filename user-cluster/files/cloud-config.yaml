@@ -10,4 +10,4 @@ runcmd:
 - apt-get update
 - apt-get -y install docker-ce=5:18.09.2~3-0~ubuntu-bionic
 - usermod -G docker -a ubuntu
-- ${registration_command} --address $(curl -s http://169.254.169.254/latest/meta-data/public-ipv4)
+- ${registration_command} --internal-address $(curl -s http://169.254.169.254/latest/meta-data/local-ipv4)

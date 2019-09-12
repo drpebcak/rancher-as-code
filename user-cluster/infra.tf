@@ -21,12 +21,12 @@ resource "aws_security_group" "user-cluster" {
 ### Create Nodes
 #############################
 resource "aws_instance" "cluster-master" {
-  count         = local.master_node_count
-  ami           = data.aws_ami.ubuntu.id
-  instance_type = local.instance_type
-  key_name      = aws_key_pair.ssh.id
-  user_data     = data.template_file.master-user_data.rendered
-
+  count                       = local.master_node_count
+  ami                         = data.aws_ami.ubuntu.id
+  instance_type               = local.instance_type
+  key_name                    = aws_key_pair.ssh.id
+  user_data                   = data.template_file.master-user_data.rendered
+  iam_instance_profile        = aws_iam_instance_profile.cloud_provider.name
   vpc_security_group_ids      = [aws_security_group.user-cluster.id]
   subnet_id                   = element(tolist(data.aws_subnet_ids.available.ids), 0)
   associate_public_ip_address = true
@@ -47,12 +47,12 @@ resource "aws_instance" "cluster-master" {
 }
 
 resource "aws_instance" "cluster-worker" {
-  count         = local.worker_node_count
-  ami           = data.aws_ami.ubuntu.id
-  instance_type = local.instance_type
-  key_name      = aws_key_pair.ssh.id
-  user_data     = data.template_file.worker-user_data.rendered
-
+  count                       = local.worker_node_count
+  ami                         = data.aws_ami.ubuntu.id
+  instance_type               = local.instance_type
+  key_name                    = aws_key_pair.ssh.id
+  user_data                   = data.template_file.worker-user_data.rendered
+  iam_instance_profile        = aws_iam_instance_profile.cloud_provider.name
   vpc_security_group_ids      = [aws_security_group.user-cluster.id]
   subnet_id                   = element(tolist(data.aws_subnet_ids.available.ids), 0)
   associate_public_ip_address = true
