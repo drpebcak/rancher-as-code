@@ -5,3 +5,7 @@ output "master-addresses" {
 output "worker-addresses" {
   value = aws_instance.cluster-worker.*.public_ip
 }
+
+output "cluster_id" {
+  value = rancher2_cluster.user-cluster.id
+}

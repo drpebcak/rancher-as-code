@@ -41,6 +41,9 @@ resource "aws_instance" "cluster-master" {
     DoNotDelete = "true"
     Owner       = "EIO_Demo"
   }
+  lifecycle {
+    ignore_changes = [user_data]
+  }
 }
 
 resource "aws_instance" "cluster-worker" {
@@ -63,5 +66,8 @@ resource "aws_instance" "cluster-worker" {
     Name        = "${local.name}-user-cluster-${count.index}"
     DoNotDelete = "true"
     Owner       = "EIO_Demo"
+  }
+  lifecycle {
+    ignore_changes = [user_data]
   }
 }

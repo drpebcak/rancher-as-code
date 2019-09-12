@@ -4,10 +4,10 @@ ssh_authorized_keys:
 - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN5O7k6gRYCU7YPkCH6dyXVW10izMAkDAQtQxNxdRE22 drpebcak
 runcmd:
 - apt-get update
-- apt-get install -y apt-transport-https jq software-properties-common
+- apt-get install -y apt-transport-https jq software-properties-common curl
 - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 - add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 - apt-get update
 - apt-get -y install docker-ce=5:18.09.2~3-0~ubuntu-bionic
 - usermod -G docker -a ubuntu
-- ${registration_command}
+- ${registration_command} --address $(curl -s http://169.254.169.254/latest/meta-data/public-ipv4)
