@@ -1,0 +1,13 @@
+#cloud-config
+ssh_authorized_keys:
+- ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC06Qvs+Y9JiyOTeYNGAN/Ukq7SmeCTr7EreD1K8Lwu5VuOmo+SBZh685tNTEGV044HgFvGEOBVreDlO2ArYuwHjUBGnpQGV8/abjoeLrmZBdREAUzBQ1h2GFE/WssKUfum81cnigRK1J3tWP7emq/Y2h/Zw5F09yiCIlXMBX2auKWUCXqwG3xKTi1NVSF9N6BGyFolrAR0LZJ6k7UBXPRc/QDTclI427gSJNbnmn8LVym6YxacV/V9Y7s23iR5zYbhLPe9VJWYNk1brVvfUVb3mILVVYz76KGEq8SHdWlPQPCOp+fSJ+PezDRklnex/MmvhNrBOmMSNcpj7wSLA3hD wmaxwell@wmaxwell-laptop
+- ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN5O7k6gRYCU7YPkCH6dyXVW10izMAkDAQtQxNxdRE22 drpebcak
+runcmd:
+- apt-get update
+- apt-get install -y apt-transport-https jq software-properties-common
+- curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+- add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+- apt-get update
+- apt-get -y install docker-ce=5:18.09.2~3-0~ubuntu-bionic
+- usermod -G docker -a ubuntu
+- ${registration_command}
