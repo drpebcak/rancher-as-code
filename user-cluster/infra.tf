@@ -3,9 +3,23 @@ resource "aws_security_group" "user-cluster" {
   vpc_id = data.aws_vpc.default.id
 
   ingress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
+    from_port = 0
+    to_port   = 0
+    protocol  = "-1"
+    self      = true
+  }
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "TCP"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "TCP"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
@@ -37,9 +51,10 @@ resource "aws_instance" "cluster-master" {
   }
 
   tags = {
-    Name        = "${local.name}-master-${count.index}"
-    DoNotDelete = "true"
-    Owner       = "EIO_Demo"
+    Name                                  = "${local.name}-master-${count.index}"
+    DoNotDelete                           = "true"
+    Owner                                 = "EIO_Demo"
+    "kubernetes.io/cluster/${local.name}" = "true"
   }
   lifecycle {
     ignore_changes = [user_data]
@@ -63,9 +78,10 @@ resource "aws_instance" "cluster-worker" {
   }
 
   tags = {
-    Name        = "${local.name}-user-cluster-${count.index}"
-    DoNotDelete = "true"
-    Owner       = "EIO_Demo"
+    Name                                  = "${local.name}-user-cluster-${count.index}"
+    DoNotDelete                           = "true"
+    Owner                                 = "EIO_Demo"
+    "kubernetes.io/cluster/${local.name}" = "true"
   }
   lifecycle {
     ignore_changes = [user_data]

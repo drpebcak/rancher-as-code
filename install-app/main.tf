@@ -30,4 +30,10 @@ resource "rancher2_app" "rio" {
   template_name    = "rio"
   template_version = "0.0.1"
   depends_on       = [rancher2_catalog.demo]
+  values_yaml      = <<EOF
+rio:
+  env:
+  - name: IP_ADDRESSES
+    value: ${join(",", data.terraform_remote_state.cluster.outputs.worker-addresses)}
+EOF
 }
