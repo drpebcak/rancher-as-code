@@ -48,3 +48,7 @@ data "helm_repository" "jetstack" {
 data "template_file" "cloud_config" {
   template = file("${path.module}/files/cloud-config.yaml")
 }
+
+data "rancher2_user" "admin" {
+  username = "admin"
+}

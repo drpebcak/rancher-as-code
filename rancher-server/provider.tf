@@ -21,3 +21,8 @@ provider "rancher2" {
   api_url   = "https://${local.name}.${local.domain}"
   bootstrap = true
 }
+
+provider "rancher2" {
+  api_url   = "https://${local.name}.${local.domain}"
+  token_key = rancher2_bootstrap.admin.token
+}
