@@ -35,3 +35,6 @@ terraform apply
 terraform init
 terraform apply
 ```
+
+### Notes
+If you don't work at rancher, you will probably need to modify some of this configuration. The `aws` provider assumes you want to use a specific `profile` for access to AWS. Feel free to modify this in `rancher-server` and `user-cluster`. We also sort of assume that you want a domain name for `rancher-server` based on `${local.name}.${local.domain}` - you should probably change those as well. Finally, we are assuming that you use Route53 for your DNS. In `rancher-server/infra.tf` we make a DNS record for your rancher server.  If you do not use Route53, you should change this to reference whatever DNS provider you would like to use instead.
