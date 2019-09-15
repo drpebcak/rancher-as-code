@@ -1,0 +1,49 @@
+minimum_rancher_version: v2.2.8
+questions:
+- variable: defaultImage
+  default: true
+  description: "Use default Docker image"
+  label: Use Default Image
+  type: boolean
+  show_subquestion_if: false
+  group: "Container Images"
+  subquestions:
+  - variable: image.repository
+    default: "strongmonkey1992/rio-controller"
+    description: "rio-controller Docker Image Name"
+    type: string
+    label: rio-controller Docker Image Name
+  - variable: image.tag
+    default: "dev"
+    description: "rio-controller Docker Image Tag"
+    type: string
+    label: rio-controller Docker Image Tag
+- variable: rio.installMode
+  default: "ingress"
+  description: "Install mode to expose gateway"
+  label: Install mode
+  type: enum
+  required: true
+  options:
+    - "ingress"
+    - "svclb"
+    - "hostport"
+- variable: rio.httpPort
+  default: 80
+  description: "Http port service mesh gateway will listen to"
+  label: http port
+  type: int
+  min: 1
+  max: 65535
+  required: true
+- variable: rio.serviceCidr
+  default: "10.43.0.1/16"
+  description: "Cidr for service network"
+  label: service network cidr
+  type: string
+  required: true
+- variable: rio.tag
+  default: "dev"
+  description: "rio-controller Docker Image Tag"
+  type: string
+  label: rio-controller Docker Image Tag
