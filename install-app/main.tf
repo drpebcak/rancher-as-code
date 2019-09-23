@@ -1,6 +1,9 @@
 terraform {
-  backend "local" {
-    path = "install-app.tfstate"
+  backend "remote" {
+    organization = "drpebcak"
+    workspaces {
+      name = "rancher-as-code_install-app"
+    }
   }
 }
 

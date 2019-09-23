@@ -1,15 +1,21 @@
 data "terraform_remote_state" "server" {
-  backend = "local"
+  backend = "remote"
 
   config = {
-    path = "${path.module}/../rancher-server/rancher.tfstate"
+    organization = "drpebcak"
+    workspaces = {
+      name = "rancher-as-code_rancher-server"
+    }
   }
 }
 
 data "terraform_remote_state" "cluster" {
-  backend = "local"
+  backend = "remote"
 
   config = {
-    path = "${path.module}/../user-cluster/user-cluster.tfstate"
+    organization = "drpebcak"
+    workspaces = {
+      name = "rancher-as-code_user-cluster"
+    }
   }
 }
