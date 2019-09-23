@@ -1,6 +1,6 @@
 resource "rancher2_cluster" "user-cluster" {
   name        = "${local.name}"
-  description = "TF managed RKE cluster"
+  description = "Terraform managed RKE cluster"
 
   rke_config {
     # Shows how easy it is to update
