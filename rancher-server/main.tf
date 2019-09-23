@@ -1,6 +1,9 @@
 terraform {
-  backend "local" {
-    path = "rancher.tfstate"
+  backend "remote" {
+    organization = "drpebcak"
+    workspaces {
+      name = "rancher-as-code_rancher-server"
+    }
   }
 }
 

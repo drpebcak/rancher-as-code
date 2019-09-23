@@ -1,8 +1,11 @@
 data "terraform_remote_state" "server" {
-  backend = "local"
+  backend = "remote"
 
   config = {
-    path = "${path.module}/../rancher-server/rancher.tfstate"
+    organization = "drpebcak"
+    workspaces = {
+      name = "rancher-as-code_rancher-server"
+    }
   }
 }
 

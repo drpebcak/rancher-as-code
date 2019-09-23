@@ -1,6 +1,9 @@
 terraform {
-  backend "local" {
-    path = "user-cluster.tfstate"
+  backend "remote" {
+    organization = "drpebcak"
+    workspaces {
+      name = "rancher-as-code_user-cluster"
+    }
   }
 }
 
