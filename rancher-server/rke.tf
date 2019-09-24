@@ -28,6 +28,23 @@ resource "rke_cluster" "rancher_server" {
 
   cluster_name = "rancher-management"
   addons       = file("${path.module}/files/addons.yaml")
+
+  services_etcd {
+    # for etcd snapshots
+    backup_config {
+      interval_hours = 12
+      retention      = 6
+      # s3 specific parameters
+      s3_backup_config {
+        access_key  = aws_iam_access_key.etcBackupUser.id
+        secret_key  = aws_iam_access_key.etcBackupUser.secret
+        bucket_name = aws_s3_bucket.etcd-backups.id
+        region      = "us-west-2"
+        folder      = local.name
+        endpoint    = "s3.us-west-2.amazonaws.com"
+      }
+    }
+  }
 }
 
 resource "local_file" "kube_cluster_yaml" {

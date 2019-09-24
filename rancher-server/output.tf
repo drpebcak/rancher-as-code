@@ -7,7 +7,8 @@ output "worker-addresses" {
 }
 
 output "rancher_admin_password" {
-  value = var.rancher_password
+  value     = var.rancher_password
+  sensitive = true
 }
 
 output "rancher_url" {
@@ -16,5 +17,19 @@ output "rancher_url" {
 
 output "rancher_token" {
   value     = rancher2_bootstrap.admin.token
+  sensitive = true
+}
+
+output "etcBackupS3BucketId" {
+  value = aws_s3_bucket.etcd-backups.id
+}
+
+output "etcBackupUserKey" {
+  value     = aws_iam_access_key.etcBackupUser.id
+  sensitive = true
+}
+
+output "etcBackupUserSecret" {
+  value     = aws_iam_access_key.etcBackupUser.secret
   sensitive = true
 }

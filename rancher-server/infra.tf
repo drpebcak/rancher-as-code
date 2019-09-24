@@ -199,3 +199,48 @@ EOF
     }
   }
 }
+
+resource "aws_s3_bucket" "etcd-backups" {
+  bucket = "${local.name}-rancher-etcd-backup"
+  acl    = "private"
+
+  versioning {
+    enabled = true
+  }
+}
+
+resource "aws_iam_user" "etcBackupUser" {
+  name = "${local.name}-etcd-backup"
+}
+
+resource "aws_iam_access_key" "etcBackupUser" {
+  user = aws_iam_user.etcBackupUser.name
+}
+
+resource "aws_iam_user_policy" "etcBackupUser" {
+  name = "${aws_iam_user.etcBackupUser.name}-policy"
+  user = aws_iam_user.etcBackupUser.name
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "etcdBackupBucket",
+            "Effect": "Allow",
+            "Action": [
+                "s3:PutObject",
+                "s3:GetObject",
+                "s3:ListBucket",
+                "s3:DeleteObject"
+            ],
+            "Resource": [
+                "${aws_s3_bucket.etcd-backups.arn}",
+                "${aws_s3_bucket.etcd-backups.arn}/*"
+            ]
+        }
+    ]
+}
+EOF
+
+}
