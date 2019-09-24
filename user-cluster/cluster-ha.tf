@@ -9,6 +9,7 @@ resource "rancher2_cluster" "user-cluster" {
     cloud_provider {
       name = "aws"
     }
+
     services {
       etcd {
         backup_config {
