@@ -10,6 +10,8 @@ This repository contains:
 ## Usage
 This example uses the terraform RKE provider - https://github.com/yamamoto-febc/terraform-provider-rke. To use this, you need to follow the [installation instructions](https://github.com/yamamoto-febc/terraform-provider-rke#installation).
 
+### Note - currently this project is using a fork of the RKE provider, found here: https://github.com/drpebcak/terraform-provider-rke/tree/backup-folder. This fork will be removed once this PR is merged and released: https://github.com/yamamoto-febc/terraform-provider-rke/pull/123
+
 1. Go into the `rancher-server` directory
 * This directory contains terraform that uses RKE to set up a kubernetes cluster, configures helm, installs cert-manager, and then installs rancher.
 2. Run terraform
