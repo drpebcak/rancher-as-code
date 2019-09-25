@@ -1,7 +1,7 @@
 replicas: 1
 image:
-  repository: "strongmonkey1992/rio-controller"
-  tag: "dev"
+  repository: "rancher/rio-controller"
+  tag: "v0.5.0-alpha.5"
   pullPolicy: IfNotPresent
 serviceAccount:
   create: true
@@ -11,6 +11,8 @@ rio:
   httpPort: 80
   serviceCidr: "10.43.0.1/16"
   installMode: "ingress"
+  # Service Mesh Mode
+  smMode: "linkerd"
   env:
   # - name: RIO_DEBUG
   #   value: "false"

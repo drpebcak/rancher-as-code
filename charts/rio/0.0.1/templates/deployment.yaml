@@ -31,6 +31,8 @@ spec:
           value: "{{ .Values.rio.serviceCidr }}"
         - name: INSTALL_MODE
           value: "{{ .Values.rio.installMode }}"
+        - name: SM_MODE
+          value: "{{ .Values.rio.smMode }}"
         {{- if .Values.rio.env }}
         {{ range $k, $v := .Values.rio.env -}}
         - name: {{ $v.name }}
