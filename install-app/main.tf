@@ -40,3 +40,5 @@ rio:
     value: ${join(",", data.terraform_remote_state.cluster.outputs.worker-addresses)}
 EOF
 }
+
+
