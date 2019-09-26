@@ -1,9 +1,9 @@
-output "master-addresses" {
-  value = aws_instance.rancher-master.*.public_ip
+output "master_addresses" {
+  value = aws_instance.rancher_master.*.public_ip
 }
 
-output "worker-addresses" {
-  value = aws_instance.rancher-worker.*.public_ip
+output "worker_addresses" {
+  value = aws_instance.rancher_worker.*.public_ip
 }
 
 output "rancher_admin_password" {
@@ -20,16 +20,16 @@ output "rancher_token" {
   sensitive = true
 }
 
-output "etcBackupS3BucketId" {
-  value = aws_s3_bucket.etcd-backups.id
+output "etcd_backup_s3_bucket_id" {
+  value = aws_s3_bucket.etcd_backups.id
 }
 
-output "etcBackupUserKey" {
-  value     = aws_iam_access_key.etcBackupUser.id
+output "etcd_backup_user_key" {
+  value     = aws_iam_access_key.etcd_backup_user.id
   sensitive = true
 }
 
-output "etcBackupUserSecret" {
-  value     = aws_iam_access_key.etcBackupUser.secret
+output "etcd_backup_user_secret" {
+  value     = aws_iam_access_key.etcd_backup_user.secret
   sensitive = true
 }

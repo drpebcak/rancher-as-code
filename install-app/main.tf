@@ -37,7 +37,7 @@ resource "rancher2_app" "rio" {
 rio:
   env:
   - name: IP_ADDRESSES
-    value: ${join(",", data.terraform_remote_state.cluster.outputs.worker-addresses)}
+    value: ${join(",", data.terraform_remote_state.cluster.outputs.worker_addresses)}
 EOF
 }
 
