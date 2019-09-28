@@ -41,3 +41,10 @@ variable "instance_ssh_user" {
   default     = "ubuntu"
   description = "Username for sshing into instances"
 }
+
+variable "certmanager_version" {
+  type        = string
+  default     = "0.10.0"
+  description = "Version of cert-manager to install"
+}
+

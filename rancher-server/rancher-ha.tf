@@ -1,7 +1,7 @@
 resource "null_resource" "cert-manager-crds" {
   provisioner "local-exec" {
     command = <<EOF
-kubectl apply -f https://raw.githubusercontent.com/jetstack/cert-manager/release-0.10/deploy/manifests/00-crds.yaml
+kubectl apply -f https://raw.githubusercontent.com/jetstack/cert-manager/v${var.certmanager_version}/deploy/manifests/00-crds.yaml
 kubectl create namespace cert-manager
 kubectl label namespace cert-manager certmanager.k8s.io/disable-validation=true
 EOF
@@ -16,7 +16,7 @@ EOF
 # install cert-manager
 resource "helm_release" "cert_manager" {
   depends_on = [null_resource.cert-manager-crds]
-  version    = "v0.10.0"
+  version    = "v${var.certmanager_version}"
   name       = "cert-manager"
   chart      = "jetstack/cert-manager"
   namespace  = "cert-manager"
