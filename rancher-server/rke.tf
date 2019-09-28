@@ -9,7 +9,7 @@ resource "rke_cluster" "rancher_server" {
     content {
       address          = nodes.value.public_ip
       internal_address = nodes.value.private_ip
-      user             = "ubuntu"
+      user             = var.instance_ssh_user
       role             = ["controlplane", "etcd"]
       ssh_key          = tls_private_key.ssh.private_key_pem
     }
@@ -20,7 +20,7 @@ resource "rke_cluster" "rancher_server" {
     content {
       address          = nodes.value.public_ip
       internal_address = nodes.value.private_ip
-      user             = "ubuntu"
+      user             = var.instance_ssh_user
       role             = ["worker"]
       ssh_key          = tls_private_key.ssh.private_key_pem
     }

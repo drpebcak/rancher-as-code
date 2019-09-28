@@ -9,3 +9,10 @@ variable "github_client_id" {
 variable "github_client_secret" {
   type = string
 }
+
+
+variable "instance_ssh_user" {
+  type        = string
+  default     = "ubuntu"
+  description = "Username for sshing into instances"
+}
