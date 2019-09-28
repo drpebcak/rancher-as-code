@@ -68,3 +68,13 @@ variable "rancher_github_auth_team" {
   type    = string
   default = "3414845"
 }
+
+variable "aws_region" {
+  type    = string
+  default = "us-west-2"
+}
+
+variable "aws_profile" {
+  type    = string
+  default = "rancher-eng"
+}
