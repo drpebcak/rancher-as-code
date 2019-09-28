@@ -48,3 +48,23 @@ variable "certmanager_version" {
   description = "Version of cert-manager to install"
 }
 
+variable "rancher_github_auth_enabled" {
+  type        = bool
+  default     = false
+  description = "Whether to use GitHub authentication for Rancher"
+}
+
+variable "rancher_github_auth_user" {
+  type    = string
+  default = "3430214"
+}
+
+variable "rancher_github_auth_org" {
+  type    = string
+  default = "53273206"
+}
+
+variable "rancher_github_auth_team" {
+  type    = string
+  default = "3414845"
+}

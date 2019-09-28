@@ -98,8 +98,13 @@ resource "rancher2_bootstrap" "admin" {
 }
 
 resource "rancher2_auth_config_github" "github" {
-  client_id             = var.github_client_id
-  client_secret         = var.github_client_secret
-  access_mode           = "restricted"
-  allowed_principal_ids = ["local://${data.rancher2_user.admin.id}", "github_user://3430214", "github_org://53273206", "github_team://3414845"]
+  count         = local.rancher2_auth_config_github_count
+  client_id     = var.github_client_id
+  client_secret = var.github_client_secret
+  access_mode   = "restricted"
+
+  allowed_principal_ids = ["local://${data.rancher2_user.admin.id}",
+    "github_user://${var.rancher_github_auth_user}",
+    "github_org://${var.rancher_github_auth_org}",
+  "github_team://${var.rancher_github_auth_team}"]
 }
