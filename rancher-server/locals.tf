@@ -12,4 +12,6 @@ locals {
   rancher2_auth_github_org            = length(var.rancher_github_auth_org) > 0 ? [var.rancher_github_auth_org] : []
   rancher2_auth_github_team           = length(var.rancher_github_auth_team) > 0 ? [var.rancher_github_auth_team] : []
   rancher2_auth_github_principal_list = concat(local.rancher2_auth_github_user, local.rancher2_auth_github_org, local.rancher2_auth_github_team)
+  # If not using default vpc in region, use vpc_id passed in
+  vpc_id = var.use_default_vpc ? data.aws_vpc.default.id : var.vpc_id
 }
