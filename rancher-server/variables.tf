@@ -71,6 +71,11 @@ variable "rancher_github_auth_team" {
   default     = "3414845"
   description = "GitHub numerical ID of team to grant Rancher access to"
 }
+
+variable "rancher_extra_allowed_gh_principals" {
+  type        = list
+  default     = []
+  description = "List of principals in form github_user://IDNUM to be given Rancher access"
 }
 
 variable "aws_region" {
