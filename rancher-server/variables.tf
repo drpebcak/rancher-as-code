@@ -52,31 +52,31 @@ variable "certmanager_version" {
   description = "Version of cert-manager to install"
 }
 
-variable "rancher_github_auth_enabled" {
+variable "rancher2_github_auth_enabled" {
   type        = bool
   default     = false
   description = "Whether to use GitHub authentication for Rancher"
 }
 
-variable "rancher_github_auth_user" {
+variable "rancher2_github_auth_user" {
   type        = string
   default     = "3430214"
   description = "GitHub numerical ID of user to grant Rancher access to"
 }
 
-variable "rancher_github_auth_org" {
+variable "rancher2_github_auth_org" {
   type        = string
   default     = "53273206"
   description = "GitHub numerical ID of organization to grant Rancher access to"
 }
 
-variable "rancher_github_auth_team" {
+variable "rancher2_github_auth_team" {
   type        = string
   default     = "3414845"
   description = "GitHub numerical ID of team to grant Rancher access to"
 }
 
-variable "rancher_extra_allowed_gh_principals" {
+variable "rancher2_extra_allowed_gh_principals" {
   type        = list
   default     = []
   description = "List of principals in form github_user://IDNUM to be given Rancher access"
