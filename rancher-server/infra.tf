@@ -1,6 +1,6 @@
 resource "aws_security_group" "rancher_elb" {
   name   = "${local.name}-rancher-elb"
-  vpc_id = data.aws_vpc.default.id
+  vpc_id = data.aws_vpc.this.id
 
   ingress {
     from_port   = 80
@@ -26,7 +26,7 @@ resource "aws_security_group" "rancher_elb" {
 
 resource "aws_security_group" "rancher" {
   name   = "${local.name}-rancher-server"
-  vpc_id = data.aws_vpc.default.id
+  vpc_id = data.aws_vpc.this.id
 
   ingress {
     from_port   = 22
