@@ -39,9 +39,9 @@ resource "rke_cluster" "rancher_server" {
         access_key  = aws_iam_access_key.etcd_backup_user.id
         secret_key  = aws_iam_access_key.etcd_backup_user.secret
         bucket_name = aws_s3_bucket.etcd_backups.id
-        region      = "us-west-2"
+        region      = local.rke_backup_region
         folder      = local.name
-        endpoint    = "s3.us-west-2.amazonaws.com"
+        endpoint    = local.rke_backup_endpoint
       }
     }
   }
