@@ -82,6 +82,17 @@ variable "rancher_extra_allowed_gh_principals" {
   description = "List of principals in form github_user://IDNUM to be given Rancher access"
 }
 
+variable "use_default_vpc" {
+  type        = bool
+  default     = true
+  description = "Should the default VPC for the region selected be used for Rancher"
+}
+
+variable "vpc_id" {
+  type        = string
+  default     = ""
+  description = "If use_default_vpc is false, the vpc id that Rancher should use"
+}
 
 variable "rke_backups_region" {
   type        = string
