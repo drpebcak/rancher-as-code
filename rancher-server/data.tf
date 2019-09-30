@@ -2,6 +2,10 @@ data "aws_vpc" "default" {
   default = true
 }
 
+data "aws_vpc" "this" {
+  id = local.vpc_id
+}
+
 data "aws_subnet_ids" "available" {
   vpc_id = data.aws_vpc.default.id
 }
