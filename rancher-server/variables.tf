@@ -3,11 +3,15 @@ variable "rancher_password" {
 }
 
 variable "github_client_id" {
-  type = string
+  type        = string
+  default     = ""
+  description = "GitHub client ID for Rancher to use, if using GH auth"
 }
 
 variable "github_client_secret" {
-  type = string
+  type        = string
+  default     = ""
+  description = "GitHub client secret for Rancher to use, if using GH auth"
 }
 
 variable "le_email" {
