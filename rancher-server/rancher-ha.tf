@@ -103,8 +103,6 @@ resource "rancher2_auth_config_github" "github" {
   client_secret = var.github_client_secret
   access_mode   = "restricted"
 
-  allowed_principal_ids = ["local://${data.rancher2_user.admin.id}",
-    "github_user://${var.rancher_github_auth_user}",
-    "github_org://${var.rancher_github_auth_org}",
-  "github_team://${var.rancher_github_auth_team}"]
+  # Concatanate the local Rancher id with any specified GitHub principals
+  allowed_principal_ids = concat(["local://${data.rancher2_user.admin.id}"], local.rancher2_auth_github_principal_list)
 }
