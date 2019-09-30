@@ -55,18 +55,22 @@ variable "rancher_github_auth_enabled" {
 }
 
 variable "rancher_github_auth_user" {
-  type    = string
-  default = "3430214"
+  type        = string
+  default     = "3430214"
+  description = "GitHub numerical ID of user to grant Rancher access to"
 }
 
 variable "rancher_github_auth_org" {
-  type    = string
-  default = "53273206"
+  type        = string
+  default     = "53273206"
+  description = "GitHub numerical ID of organization to grant Rancher access to"
 }
 
 variable "rancher_github_auth_team" {
-  type    = string
-  default = "3414845"
+  type        = string
+  default     = "3414845"
+  description = "GitHub numerical ID of team to grant Rancher access to"
+}
 }
 
 variable "aws_region" {
