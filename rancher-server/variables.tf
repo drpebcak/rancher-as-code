@@ -82,6 +82,19 @@ variable "rancher_extra_allowed_gh_principals" {
   description = "List of principals in form github_user://IDNUM to be given Rancher access"
 }
 
+
+variable "rke_backups_region" {
+  type        = string
+  default     = ""
+  description = "Region to perform backups to S3 in. Defaults to aws_region"
+}
+
+variable "rke_backups_s3_endpoint" {
+  type        = string
+  default     = ""
+  description = "Override for S3 endpoint to use for backups"
+}
+
 variable "aws_region" {
   type    = string
   default = "us-west-2"
