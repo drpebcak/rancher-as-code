@@ -1,6 +1,6 @@
 provider "aws" {
-  region  = "us-west-2"
-  profile = "rancher-eng"
+  region  = var.aws_region
+  profile = var.aws_profile
 }
 
 provider "rke" {

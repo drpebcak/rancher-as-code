@@ -1,7 +1,7 @@
 resource "null_resource" "cert-manager-crds" {
   provisioner "local-exec" {
     command = <<EOF
-kubectl apply -f https://raw.githubusercontent.com/jetstack/cert-manager/release-0.10/deploy/manifests/00-crds.yaml
+kubectl apply -f https://raw.githubusercontent.com/jetstack/cert-manager/v${var.certmanager_version}/deploy/manifests/00-crds.yaml
 kubectl create namespace cert-manager
 kubectl label namespace cert-manager certmanager.k8s.io/disable-validation=true
 EOF
@@ -16,7 +16,7 @@ EOF
 # install cert-manager
 resource "helm_release" "cert_manager" {
   depends_on = [null_resource.cert-manager-crds]
-  version    = "v0.10.0"
+  version    = "v${var.certmanager_version}"
   name       = "cert-manager"
   chart      = "jetstack/cert-manager"
   namespace  = "cert-manager"
@@ -98,8 +98,11 @@ resource "rancher2_bootstrap" "admin" {
 }
 
 resource "rancher2_auth_config_github" "github" {
-  client_id             = var.github_client_id
-  client_secret         = var.github_client_secret
-  access_mode           = "restricted"
-  allowed_principal_ids = ["local://${data.rancher2_user.admin.id}", "github_user://3430214", "github_org://53273206", "github_team://3414845"]
+  count         = local.rancher2_auth_config_github_count
+  client_id     = var.github_client_id
+  client_secret = var.github_client_secret
+  access_mode   = "restricted"
+
+  # Concatanate the local Rancher id with any specified GitHub principals
+  allowed_principal_ids = concat(["local://${data.rancher2_user.admin.id}"], local.rancher2_auth_github_principal_list)
 }

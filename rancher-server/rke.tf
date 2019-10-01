@@ -5,22 +5,22 @@ resource "rke_cluster" "rancher_server" {
   depends_on = [null_resource.wait_for_docker]
 
   dynamic nodes {
-    for_each = aws_instance.rancher-master
+    for_each = aws_instance.rancher_master
     content {
       address          = nodes.value.public_ip
       internal_address = nodes.value.private_ip
-      user             = "ubuntu"
+      user             = var.instance_ssh_user
       role             = ["controlplane", "etcd"]
       ssh_key          = tls_private_key.ssh.private_key_pem
     }
   }
 
   dynamic nodes {
-    for_each = aws_instance.rancher-worker
+    for_each = aws_instance.rancher_worker
     content {
       address          = nodes.value.public_ip
       internal_address = nodes.value.private_ip
-      user             = "ubuntu"
+      user             = var.instance_ssh_user
       role             = ["worker"]
       ssh_key          = tls_private_key.ssh.private_key_pem
     }
@@ -36,12 +36,12 @@ resource "rke_cluster" "rancher_server" {
       retention      = 6
       # s3 specific parameters
       s3_backup_config {
-        access_key  = aws_iam_access_key.etcBackupUser.id
-        secret_key  = aws_iam_access_key.etcBackupUser.secret
-        bucket_name = aws_s3_bucket.etcd-backups.id
-        region      = "us-west-2"
+        access_key  = aws_iam_access_key.etcd_backup_user.id
+        secret_key  = aws_iam_access_key.etcd_backup_user.secret
+        bucket_name = aws_s3_bucket.etcd_backups.id
+        region      = local.rke_backup_region
         folder      = local.name
-        endpoint    = "s3.us-west-2.amazonaws.com"
+        endpoint    = local.rke_backup_endpoint
       }
     }
   }

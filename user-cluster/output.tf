@@ -1,8 +1,8 @@
-output "master-addresses" {
+output "master_addresses" {
   value = aws_instance.cluster-master.*.public_ip
 }
 
-output "worker-addresses" {
+output "worker_addresses" {
   value = aws_instance.cluster-worker.*.public_ip
 }
 

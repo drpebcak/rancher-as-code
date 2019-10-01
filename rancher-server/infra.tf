@@ -1,6 +1,6 @@
 resource "aws_security_group" "rancher_elb" {
   name   = "${local.name}-rancher-elb"
-  vpc_id = data.aws_vpc.default.id
+  vpc_id = data.aws_vpc.this.id
 
   ingress {
     from_port   = 80
@@ -26,7 +26,7 @@ resource "aws_security_group" "rancher_elb" {
 
 resource "aws_security_group" "rancher" {
   name   = "${local.name}-rancher-server"
-  vpc_id = data.aws_vpc.default.id
+  vpc_id = data.aws_vpc.this.id
 
   ingress {
     from_port   = 22
@@ -74,7 +74,7 @@ resource "aws_security_group" "rancher" {
 #############################
 ### Create Nodes
 #############################
-resource "aws_instance" "rancher-master" {
+resource "aws_instance" "rancher_master" {
   count         = local.master_node_count
   ami           = data.aws_ami.ubuntu.id
   instance_type = local.instance_type
@@ -97,7 +97,7 @@ resource "aws_instance" "rancher-master" {
   }
 }
 
-resource "aws_instance" "rancher-worker" {
+resource "aws_instance" "rancher_worker" {
   count         = local.worker_node_count
   ami           = data.aws_ami.ubuntu.id
   instance_type = local.instance_type
@@ -147,7 +147,7 @@ resource "aws_elb" "rancher" {
     interval            = 5
   }
 
-  instances    = aws_instance.rancher-worker.*.id
+  instances    = aws_instance.rancher_worker.*.id
   idle_timeout = 1800
 
   tags = {
@@ -176,7 +176,7 @@ resource "null_resource" "wait_for_docker" {
   count = local.master_node_count + local.worker_node_count
 
   triggers = {
-    instance_ids = join(",", concat(aws_instance.rancher-master.*.id, aws_instance.rancher-worker.*.id))
+    instance_ids = join(",", concat(aws_instance.rancher_master.*.id, aws_instance.rancher_worker.*.id))
   }
 
   provisioner "local-exec" {
@@ -193,14 +193,14 @@ EOF
 
     environment = {
       RET  = "1"
-      USER = "ubuntu"
-      IP   = element(concat(aws_instance.rancher-master.*.public_ip, aws_instance.rancher-worker.*.public_ip), count.index)
+      USER = var.instance_ssh_user
+      IP   = element(concat(aws_instance.rancher_master.*.public_ip, aws_instance.rancher_worker.*.public_ip), count.index)
       KEY  = "${path.root}/outputs/id_rsa"
     }
   }
 }
 
-resource "aws_s3_bucket" "etcd-backups" {
+resource "aws_s3_bucket" "etcd_backups" {
   bucket = "${local.name}-rancher-etcd-backup"
   acl    = "private"
 
@@ -209,17 +209,17 @@ resource "aws_s3_bucket" "etcd-backups" {
   }
 }
 
-resource "aws_iam_user" "etcBackupUser" {
+resource "aws_iam_user" "etcd_backup_user" {
   name = "${local.name}-etcd-backup"
 }
 
-resource "aws_iam_access_key" "etcBackupUser" {
-  user = aws_iam_user.etcBackupUser.name
+resource "aws_iam_access_key" "etcd_backup_user" {
+  user = aws_iam_user.etcd_backup_user.name
 }
 
-resource "aws_iam_user_policy" "etcBackupUser" {
-  name = "${aws_iam_user.etcBackupUser.name}-policy"
-  user = aws_iam_user.etcBackupUser.name
+resource "aws_iam_user_policy" "etcd_backup_user" {
+  name = "${aws_iam_user.etcd_backup_user.name}-policy"
+  user = aws_iam_user.etcd_backup_user.name
 
   policy = <<EOF
 {
@@ -235,8 +235,8 @@ resource "aws_iam_user_policy" "etcBackupUser" {
                 "s3:DeleteObject"
             ],
             "Resource": [
-                "${aws_s3_bucket.etcd-backups.arn}",
-                "${aws_s3_bucket.etcd-backups.arn}/*"
+                "${aws_s3_bucket.etcd_backups.arn}",
+                "${aws_s3_bucket.etcd_backups.arn}/*"
             ]
         }
     ]
