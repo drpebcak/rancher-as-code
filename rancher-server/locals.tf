@@ -20,4 +20,7 @@ locals {
 
   # If not using default vpc in region, use vpc_id passed in
   vpc_id = data.aws_vpc.default.id
+
+  rancher2_master_subnet_ids = length(var.rancher2_master_subnet_ids) > 0 : var.rancher2_master_subnet_ids : data.aws_subnet_ids.available.ids
+  rancher2_worker_subnet_ids = length(var.rancher2_worker_subnet_ids) > 0 : var.rancher2_worker_subnet_ids : data.aws_subnet_ids.available.ids
 }

@@ -82,6 +82,18 @@ variable "rancher2_extra_allowed_gh_principals" {
   description = "List of principals in form github_user://IDNUM to be given Rancher access"
 }
 
+variable "rancher2_master_subnet_ids" {
+  type        = list
+  default     = []
+  description = "List of subnet ids for Rancher master nodes"
+}
+
+variable "rancher2_worker_subnet_ids" {
+  type        = list
+  default     = []
+  description = "List of subnet ids for Rancher worker nodes"
+}
+
 variable "use_default_vpc" {
   type        = bool
   default     = true
