@@ -1,10 +1,11 @@
-data "aws_vpc" "this" {
-  default = var.use_default_vpc
-  id      = var.vpc_id
+data "aws_vpc" "default" {
+  count   = var.use_default_vpc ? 1 : 0
+  default = true
 }
 
 data "aws_subnet_ids" "available" {
-  vpc_id = data.aws_vpc.default.id
+  count  = var.use_default_vpc ? 1 : 0
+  vpc_id = local.vpc_id
 }
 
 data "aws_route53_zone" "dns_zone" {
