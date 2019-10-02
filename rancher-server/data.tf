@@ -1,5 +1,5 @@
 data "aws_vpc" "default" {
-  default = true
+  default = var.use_default_vpc
 }
 
 data "aws_vpc" "this" {
