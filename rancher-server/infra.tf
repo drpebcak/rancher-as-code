@@ -82,7 +82,7 @@ resource "aws_instance" "rancher_master" {
   user_data     = data.template_file.cloud_config.rendered
 
   vpc_security_group_ids      = [aws_security_group.rancher.id]
-  subnet_id                   = element(tolist(data.aws_subnet_ids.available.ids), 0)
+  subnet_id                   = element(tolist(local.rancher2_master_subnet_ids), 0)
   associate_public_ip_address = true
 
   root_block_device {
@@ -105,7 +105,7 @@ resource "aws_instance" "rancher_worker" {
   user_data     = data.template_file.cloud_config.rendered
 
   vpc_security_group_ids      = [aws_security_group.rancher.id]
-  subnet_id                   = element(tolist(data.aws_subnet_ids.available.ids), 0)
+  subnet_id                   = element(tolist(local.rancher2_worker_subnet_ids), 0)
   associate_public_ip_address = true
 
   root_block_device {
