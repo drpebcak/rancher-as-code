@@ -19,5 +19,5 @@ locals {
   rke_backup_endpoint = length(var.rke_backups_s3_endpoint) > 0 ? var.rke_backups_s3_endpoint : "s3.${local.rke_backup_region}.amazonaws.com"
 
   # If not using default vpc in region, use vpc_id passed in
-  vpc_id = var.use_default_vpc ? data.aws_vpc.default.id : var.vpc_id
+  vpc_id = data.aws_vpc.default.id
 }

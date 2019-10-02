@@ -1,6 +1,6 @@
 data "aws_vpc" "default" {
-  count   = var.use_default_vpc ? 1 : 0
-  default = true
+  default = var.vpc_id == null ? true : false
+  id      = var.vpc_id
 }
 
 data "aws_subnet_ids" "available" {
