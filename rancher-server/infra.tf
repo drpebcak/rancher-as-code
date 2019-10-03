@@ -195,7 +195,7 @@ EOF
       RET  = "1"
       USER = var.instance_ssh_user
       IP   = element(concat(aws_instance.rancher_master.*.public_ip, aws_instance.rancher_worker.*.public_ip), count.index)
-      KEY  = "${path.root}/outputs/id_rsa"
+      KEY  = "${var.creds_output_path}/id_rsa"
     }
   }
 }

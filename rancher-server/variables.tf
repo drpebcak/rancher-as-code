@@ -127,3 +127,9 @@ variable "aws_profile" {
   type    = string
   default = "rancher-eng"
 }
+
+variable "creds_output_path" {
+  description = "Where to save the id_rsa config file. Should end in a forward slash `/` ."
+  type        = string
+  default     = "./"
+}
