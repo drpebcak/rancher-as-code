@@ -122,7 +122,7 @@ resource "aws_instance" "rancher_worker" {
 
 resource "aws_elb" "rancher" {
   name            = local.name
-  subnets         = data.aws_subnet_ids.available.ids
+  subnets         = local.aws_elb_subnet_ids
   security_groups = [aws_security_group.rancher_elb.id]
 
   listener {

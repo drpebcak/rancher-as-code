@@ -106,6 +106,12 @@ variable "vpc_id" {
   description = "If use_default_vpc is false, the vpc id that Rancher should use"
 }
 
+variable "aws_elb_subnet_ids" {
+  type        = list
+  default     = []
+  description = "List of subnet ids in which to place the AWS ELB"
+}
+
 variable "rke_backups_region" {
   type        = string
   default     = ""

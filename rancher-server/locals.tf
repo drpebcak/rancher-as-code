@@ -19,7 +19,8 @@ locals {
   rke_backup_endpoint = length(var.rke_backups_s3_endpoint) > 0 ? var.rke_backups_s3_endpoint : "s3.${local.rke_backup_region}.amazonaws.com"
 
   # If not using default vpc in region, use vpc_id passed in
-  vpc_id = data.aws_vpc.default.id
+  vpc_id             = data.aws_vpc.default.id
+  aws_elb_subnet_ids = length(var.aws_elb_subnet_ids) > 0 ? var.aws_elb_subnet_ids : data.aws_subnet_ids.available.ids
 
   rancher2_master_subnet_ids = length(var.rancher2_master_subnet_ids) > 0 ? var.rancher2_master_subnet_ids : data.aws_subnet_ids.available.ids
   rancher2_worker_subnet_ids = length(var.rancher2_worker_subnet_ids) > 0 ? var.rancher2_worker_subnet_ids : data.aws_subnet_ids.available.ids
