@@ -3,6 +3,12 @@ provider "aws" {
   profile = var.aws_profile
 }
 
+provider "aws" {
+  alias   = "r53"
+  region  = var.aws_region
+  profile = var.aws_profile
+}
+
 provider "rke" {
 }
 

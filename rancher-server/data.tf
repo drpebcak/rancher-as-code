@@ -8,7 +8,8 @@ data "aws_subnet_ids" "available" {
 }
 
 data "aws_route53_zone" "dns_zone" {
-  name = local.domain
+  provider = aws.r53
+  name     = local.domain
 }
 
 data "aws_ami" "ubuntu" {

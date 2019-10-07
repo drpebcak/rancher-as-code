@@ -158,9 +158,10 @@ resource "aws_elb" "rancher" {
 }
 
 resource "aws_route53_record" "rancher" {
-  zone_id = data.aws_route53_zone.dns_zone.zone_id
-  name    = "${local.name}.${local.domain}"
-  type    = "A"
+  zone_id  = data.aws_route53_zone.dns_zone.zone_id
+  name     = "${local.name}.${local.domain}"
+  type     = "A"
+  provider = aws.r53
 
   alias {
     name                   = aws_elb.rancher.dns_name
