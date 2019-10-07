@@ -25,6 +25,12 @@ variable "domain" {
   default = "eng.rancher.space"
 }
 
+variable "r53_domain" {
+  type        = string
+  default     = ""
+  description = "DNS domain for Route53 zone (defaults to domain if unset)"
+}
+
 variable "instance_type" {
   type    = string
   default = "t3.large"
@@ -102,7 +108,7 @@ variable "use_default_vpc" {
 
 variable "vpc_id" {
   type        = string
-  default     = ""
+  default     = null
   description = "If use_default_vpc is false, the vpc id that Rancher should use"
 }
 
