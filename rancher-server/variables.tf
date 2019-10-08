@@ -2,6 +2,12 @@ variable "rancher_password" {
   type = string
 }
 
+variable "name" {
+  type        = string
+  default     = "rancher-demo"
+  description = "Name for deployment"
+}
+
 variable "github_client_id" {
   type        = string
   default     = ""

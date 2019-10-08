@@ -1,5 +1,5 @@
 locals {
-  name              = "rancher-demo"
+  name              = length(var.name) > 0 : var.name : "rancher-demo"
   rancher_version   = "v2.2.8"
   le_email          = var.le_email
   domain            = var.domain
