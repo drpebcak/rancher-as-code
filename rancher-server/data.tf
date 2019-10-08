@@ -9,7 +9,7 @@ data "aws_subnet_ids" "available" {
 
 data "aws_route53_zone" "dns_zone" {
   provider = aws.r53
-  name     = local.domain
+  name     = local.r53_domain
 }
 
 data "aws_ami" "ubuntu" {
