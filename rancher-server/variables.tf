@@ -8,6 +8,12 @@ variable "rancher_version" {
   description = "Version of Rancher to install"
 }
 
+variable "rancher_chart" {
+  type        = string
+  default     = "rancher-stable/rancher"
+  description = "Helm chart to use for Rancher install"
+}
+
 variable "name" {
   type        = string
   default     = "rancher-demo"
