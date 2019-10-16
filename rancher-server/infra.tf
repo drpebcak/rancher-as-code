@@ -74,8 +74,54 @@ resource "aws_security_group" "rancher" {
 #############################
 ### Create Nodes
 #############################
+resource "aws_launch_template" "rancher_master" {
+  count         = local.use_asgs_for_rancher_infra ? 1 : 0
+  name_prefix   = local.name
+  image_id      = data.aws_ami.ubuntu.id
+  instance_type = local.instance_type
+  key_name      = aws_key_pair.ssh.id
+
+  user_data = data.template_file.cloud_config.rendered
+
+  vpc_security_group_ids = [aws_security_group.rancher.id]
+
+  block_device_mappings {
+    device_name = "/dev/sda1"
+
+    ebs {
+      encrypted   = true
+      volume_type = "gp2"
+      volume_size = "50"
+    }
+  }
+
+  network_interfaces {
+    associate_public_ip_address = true
+  }
+
+  tags = {
+    Name        = "${local.name}-master-${count.index}"
+    DoNotDelete = "true"
+    Owner       = "EIO_Demo"
+  }
+}
+
+resource "aws_autoscaling_group" "rancher_master" {
+  count               = local.use_asgs_for_rancher_infra ? 1 : 0
+  name_prefix         = local.name
+  desired_capacity    = local.master_node_count
+  max_size            = local.master_node_count
+  min_size            = local.master_node_count
+  vpc_zone_identifier = local.rancher2_master_subnet_ids
+
+  launch_template {
+    id      = aws_launch_template.rancher_master.id
+    version = "$Latest"
+  }
+}
+
 resource "aws_instance" "rancher_master" {
-  count         = local.master_node_count
+  count         = local.use_asgs_for_rancher_infra ? 0 : local.master_node_count
   ami           = data.aws_ami.ubuntu.id
   instance_type = local.instance_type
   key_name      = aws_key_pair.ssh.id
