@@ -40,6 +40,7 @@ module "rancher_server" {
 | certmanager\_version | Version of cert-manager to install | string | `"0.10.0"` | no |
 | creds\_output\_path | Where to save the id_rsa config file. Should end in a forward slash `/` . | string | `"./"` | no |
 | domain |  | string | `"eng.rancher.space"` | no |
+| extra\_ssh\_keys | Extra ssh keys to inject into Rancher instances | list | `[ "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC06Qvs+Y9JiyOTeYNGAN/Ukq7SmeCTr7EreD1K8Lwu5VuOmo+SBZh685tNTEGV044HgFvGEOBVreDlO2ArYuwHjUBGnpQGV8/abjoeLrmZBdREAUzBQ1h2GFE/WssKUfum81cnigRK1J3tWP7emq/Y2h/Zw5F09yiCIlXMBX2auKWUCXqwG3xKTi1NVSF9N6BGyFolrAR0LZJ6k7UBXPRc/QDTclI427gSJNbnmn8LVym6YxacV/V9Y7s23iR5zYbhLPe9VJWYNk1brVvfUVb3mILVVYz76KGEq8SHdWlPQPCOp+fSJ+PezDRklnex/MmvhNrBOmMSNcpj7wSLA3hD wmaxwell@wmaxwell-laptop", "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN5O7k6gRYCU7YPkCH6dyXVW10izMAkDAQtQxNxdRE22 drpebcak" ]` | no |
 | github\_client\_id | GitHub client ID for Rancher to use, if using GH auth | string | `""` | no |
 | github\_client\_secret | GitHub client secret for Rancher to use, if using GH auth | string | `""` | no |
 | instance\_ssh\_user | Username for sshing into instances | string | `"ubuntu"` | no |
