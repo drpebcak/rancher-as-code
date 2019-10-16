@@ -83,8 +83,6 @@ resource "aws_launch_template" "rancher_master" {
 
   user_data = base64encode(data.template_file.cloud_config.rendered)
 
-  vpc_security_group_ids = [aws_security_group.rancher.id]
-
   block_device_mappings {
     device_name = "/dev/sda1"
 
@@ -97,6 +95,7 @@ resource "aws_launch_template" "rancher_master" {
 
   network_interfaces {
     associate_public_ip_address = true
+    security_groups             = [aws_security_group.rancher.id]
   }
 
   tags = {
