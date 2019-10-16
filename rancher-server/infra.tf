@@ -229,7 +229,7 @@ resource "null_resource" "wait_for_docker" {
   count = local.master_node_count + local.worker_node_count
 
   triggers = {
-    instance_ids = join(",", concat(aws_instance.rancher_master.*.id, aws_instance.rancher_worker.*.id))
+    instance_ids = local.use_asgs_for_rancher_infra ? join(",", concat(data.aws_instances.rancher_master.ids, aws_instance.rancher_worker.*.id)) : join(",", concat(aws_instance.rancher_master.*.id, aws_instance.rancher_worker.*.id))
   }
 
   provisioner "local-exec" {
@@ -247,7 +247,7 @@ EOF
     environment = {
       RET  = "1"
       USER = var.instance_ssh_user
-      IP   = element(concat(aws_instance.rancher_master.*.public_ip, aws_instance.rancher_worker.*.public_ip), count.index)
+      IP   = local.use_asgs_for_rancher_infra ? element(concat(data.aws_instances.rancher_master.public_ips, aws_instance.rancher_worker.*.public_ip), count.index) : element(concat(aws_instance.rancher_master.*.public_ip, aws_instance.rancher_worker.*.public_ip), count.index)
       KEY  = "${var.creds_output_path}/id_rsa"
     }
   }
