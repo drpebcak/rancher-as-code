@@ -3,6 +3,10 @@ provider "aws" {
   profile = var.aws_profile
 }
 
+provider "aws" {
+  alias = "r53"
+}
+
 provider "rke" {
 }
 

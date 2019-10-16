@@ -1,6 +1,6 @@
 resource "aws_security_group" "rancher_elb" {
   name   = "${local.name}-rancher-elb"
-  vpc_id = data.aws_vpc.this.id
+  vpc_id = local.vpc_id
 
   ingress {
     from_port   = 80
@@ -26,7 +26,7 @@ resource "aws_security_group" "rancher_elb" {
 
 resource "aws_security_group" "rancher" {
   name   = "${local.name}-rancher-server"
-  vpc_id = data.aws_vpc.this.id
+  vpc_id = local.vpc_id
 
   ingress {
     from_port   = 22
@@ -82,7 +82,7 @@ resource "aws_instance" "rancher_master" {
   user_data     = data.template_file.cloud_config.rendered
 
   vpc_security_group_ids      = [aws_security_group.rancher.id]
-  subnet_id                   = element(tolist(data.aws_subnet_ids.available.ids), 0)
+  subnet_id                   = element(tolist(local.rancher2_master_subnet_ids), 0)
   associate_public_ip_address = true
 
   root_block_device {
@@ -105,7 +105,7 @@ resource "aws_instance" "rancher_worker" {
   user_data     = data.template_file.cloud_config.rendered
 
   vpc_security_group_ids      = [aws_security_group.rancher.id]
-  subnet_id                   = element(tolist(data.aws_subnet_ids.available.ids), 0)
+  subnet_id                   = element(tolist(local.rancher2_worker_subnet_ids), 0)
   associate_public_ip_address = true
 
   root_block_device {
@@ -122,7 +122,7 @@ resource "aws_instance" "rancher_worker" {
 
 resource "aws_elb" "rancher" {
   name            = local.name
-  subnets         = data.aws_subnet_ids.available.ids
+  subnets         = local.aws_elb_subnet_ids
   security_groups = [aws_security_group.rancher_elb.id]
 
   listener {
@@ -158,9 +158,10 @@ resource "aws_elb" "rancher" {
 }
 
 resource "aws_route53_record" "rancher" {
-  zone_id = data.aws_route53_zone.dns_zone.zone_id
-  name    = "${local.name}.${local.domain}"
-  type    = "A"
+  zone_id  = data.aws_route53_zone.dns_zone.zone_id
+  name     = "${local.name}.${local.domain}"
+  type     = "A"
+  provider = aws.r53
 
   alias {
     name                   = aws_elb.rancher.dns_name
@@ -195,7 +196,7 @@ EOF
       RET  = "1"
       USER = var.instance_ssh_user
       IP   = element(concat(aws_instance.rancher_master.*.public_ip, aws_instance.rancher_worker.*.public_ip), count.index)
-      KEY  = "${path.root}/outputs/id_rsa"
+      KEY  = "${var.creds_output_path}/id_rsa"
     }
   }
 }

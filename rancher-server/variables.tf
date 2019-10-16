@@ -2,6 +2,30 @@ variable "rancher_password" {
   type = string
 }
 
+variable "rancher_version" {
+  type        = string
+  default     = "2.2.8"
+  description = "Version of Rancher to install"
+}
+
+variable "rancher_chart" {
+  type        = string
+  default     = "rancher-stable/rancher"
+  description = "Helm chart to use for Rancher install"
+}
+
+variable "certmanager_chart" {
+  type        = string
+  default     = "jetstack/cert-manager"
+  description = "Helm chart to use for cert-manager install"
+}
+
+variable "name" {
+  type        = string
+  default     = "rancher-demo"
+  description = "Name for deployment"
+}
+
 variable "github_client_id" {
   type        = string
   default     = ""
@@ -23,6 +47,12 @@ variable "le_email" {
 variable "domain" {
   type    = string
   default = "eng.rancher.space"
+}
+
+variable "r53_domain" {
+  type        = string
+  default     = ""
+  description = "DNS domain for Route53 zone (defaults to domain if unset)"
 }
 
 variable "instance_type" {
@@ -82,6 +112,18 @@ variable "rancher2_extra_allowed_gh_principals" {
   description = "List of principals in form github_user://IDNUM to be given Rancher access"
 }
 
+variable "rancher2_master_subnet_ids" {
+  type        = list
+  default     = []
+  description = "List of subnet ids for Rancher master nodes"
+}
+
+variable "rancher2_worker_subnet_ids" {
+  type        = list
+  default     = []
+  description = "List of subnet ids for Rancher worker nodes"
+}
+
 variable "use_default_vpc" {
   type        = bool
   default     = true
@@ -90,8 +132,14 @@ variable "use_default_vpc" {
 
 variable "vpc_id" {
   type        = string
-  default     = ""
+  default     = null
   description = "If use_default_vpc is false, the vpc id that Rancher should use"
+}
+
+variable "aws_elb_subnet_ids" {
+  type        = list
+  default     = []
+  description = "List of subnet ids in which to place the AWS ELB"
 }
 
 variable "rke_backups_region" {
@@ -114,4 +162,10 @@ variable "aws_region" {
 variable "aws_profile" {
   type    = string
   default = "rancher-eng"
+}
+
+variable "creds_output_path" {
+  description = "Where to save the id_rsa config file. Should end in a forward slash `/` ."
+  type        = string
+  default     = "./"
 }

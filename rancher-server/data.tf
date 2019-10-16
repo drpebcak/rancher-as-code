@@ -1,9 +1,6 @@
 data "aws_vpc" "default" {
-  default = true
-}
-
-data "aws_vpc" "this" {
-  id = local.vpc_id
+  default = var.vpc_id == null ? true : false
+  id      = var.vpc_id
 }
 
 data "aws_subnet_ids" "available" {
@@ -11,7 +8,8 @@ data "aws_subnet_ids" "available" {
 }
 
 data "aws_route53_zone" "dns_zone" {
-  name = local.domain
+  provider = aws.r53
+  name     = local.r53_domain
 }
 
 data "aws_ami" "ubuntu" {

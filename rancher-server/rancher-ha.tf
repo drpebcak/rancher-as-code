@@ -18,7 +18,7 @@ resource "helm_release" "cert_manager" {
   depends_on = [null_resource.cert-manager-crds]
   version    = "v${var.certmanager_version}"
   name       = "cert-manager"
-  chart      = "jetstack/cert-manager"
+  chart      = var.certmanager_chart
   namespace  = "cert-manager"
 
   # Bogus set to link together resources for proper tear down
@@ -31,7 +31,7 @@ resource "helm_release" "cert_manager" {
 # install rancher
 resource "helm_release" "rancher" {
   name      = "rancher"
-  chart     = "rancher-stable/rancher"
+  chart     = "v${var.rancher_chart}"
   version   = local.rancher_version
   namespace = "cattle-system"
 
