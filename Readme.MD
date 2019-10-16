@@ -1,5 +1,7 @@
 # Rancher as Code
 
+### The contents of this repository are currently being rewritten into discreet modules. Expect some breakage while this is happening!
+
 This repository contains:
 
 1. An example on how to set up rancher server in an HA configuration using terraform.
@@ -8,9 +10,7 @@ This repository contains:
 4. How to deploy applications into the cluster using terraform
 
 ## Usage
-This example uses the terraform RKE provider - https://github.com/yamamoto-febc/terraform-provider-rke. To use this, you need to follow the [installation instructions](https://github.com/yamamoto-febc/terraform-provider-rke#installation).
-
-### Note - currently this project is using a fork of the RKE provider, found here: https://github.com/drpebcak/terraform-provider-rke/tree/backup-folder. This fork will be removed once this PR is merged and released: https://github.com/yamamoto-febc/terraform-provider-rke/pull/123
+This example uses the terraform RKE provider - https://github.com/yamamoto-febc/terraform-provider-rke. To use this, you need to follow the [installation instructions](https://github.com/yamamoto-febc/terraform-provider-rke#installation). Please note that it relies on a feature which has been merged but not released, so currently the best way to use this is to build `terraform-provider-rke` on your system rather than download from a release.
 
 1. Go into the `rancher-server` directory
 * This directory contains terraform that uses RKE to set up a kubernetes cluster, configures helm, installs cert-manager, and then installs rancher.
