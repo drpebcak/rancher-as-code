@@ -95,6 +95,7 @@ resource "aws_launch_template" "rancher_master" {
 
   network_interfaces {
     associate_public_ip_address = true
+    delete_on_termination       = true
     security_groups             = [aws_security_group.rancher.id]
   }
 
