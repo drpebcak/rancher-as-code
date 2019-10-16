@@ -1,7 +1,7 @@
 #cloud-config
-%{ if length(var.extra_ssh_keys) > 0 }
+%{ if length(extra_ssh_keys) > 0 }
 ssh_authorized_keys:
-%{ for ssh_key in var.extra_ssh_keys }
+%{ for ssh_key in extra_ssh_keys }
 - ${ssh_key}
 %{ endfor }
 %{ endif }
