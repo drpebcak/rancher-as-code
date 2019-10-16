@@ -120,8 +120,9 @@ resource "aws_autoscaling_group" "rancher_master" {
 }
 
 data "aws_instances" "rancher_master" {
-  instance_tags = {
-    "aws:autoscaling:groupName" = aws_autoscaling_group.rancher_master.0.name
+  filter {
+    name   = "tag:aws:autoscaling:groupName"
+    values = [aws_autoscaling_group.rancher_master.0.name]
   }
 }
 
