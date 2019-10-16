@@ -120,6 +120,12 @@ resource "aws_autoscaling_group" "rancher_master" {
   }
 }
 
+data "aws_instances" "rancher_master" {
+  instance_tags = {
+    "aws:autoscaling:groupName" = aws_autoscaling_group.rancher_master.name
+  }
+}
+
 resource "aws_instance" "rancher_master" {
   count         = local.use_asgs_for_rancher_infra ? 0 : local.master_node_count
   ami           = data.aws_ami.ubuntu.id
