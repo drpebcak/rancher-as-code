@@ -1,6 +1,6 @@
 locals {
   name              = var.name
-  rancher_version   = "v2.2.8"
+  rancher_version   = var.rancher_version
   le_email          = var.le_email
   domain            = var.domain
   r53_domain        = length(var.r53_domain) > 0 ? var.r53_domain : local.domain
