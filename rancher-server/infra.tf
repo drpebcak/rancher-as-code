@@ -81,7 +81,7 @@ resource "aws_launch_template" "rancher_master" {
   instance_type = local.instance_type
   key_name      = aws_key_pair.ssh.id
 
-  user_data = base64encode(data.template_file.cloud_config.rendered)
+  user_data = base64encode(templatefile("${path.module}/files/cloud-config.yaml"))
 
   block_device_mappings {
     device_name = "/dev/sda1"
@@ -131,7 +131,7 @@ resource "aws_instance" "rancher_master" {
   ami           = data.aws_ami.ubuntu.id
   instance_type = local.instance_type
   key_name      = aws_key_pair.ssh.id
-  user_data     = data.template_file.cloud_config.rendered
+  user_data     = templatefile("${path.module}/files/cloud-config.yaml")
 
   vpc_security_group_ids      = [aws_security_group.rancher.id]
   subnet_id                   = element(tolist(local.rancher2_master_subnet_ids), 0)
@@ -154,7 +154,7 @@ resource "aws_instance" "rancher_worker" {
   ami           = data.aws_ami.ubuntu.id
   instance_type = local.instance_type
   key_name      = aws_key_pair.ssh.id
-  user_data     = data.template_file.cloud_config.rendered
+  user_data     = templatefile("${path.module}/files/cloud-config.yaml")
 
   vpc_security_group_ids      = [aws_security_group.rancher.id]
   subnet_id                   = element(tolist(local.rancher2_worker_subnet_ids), 0)

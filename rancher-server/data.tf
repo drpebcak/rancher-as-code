@@ -47,10 +47,6 @@ data "helm_repository" "jetstack" {
   url  = "https://charts.jetstack.io"
 }
 
-data "template_file" "cloud_config" {
-  template = file("${path.module}/files/cloud-config.yaml")
-}
-
 data "rancher2_user" "admin" {
   username   = "admin"
   depends_on = [rancher2_bootstrap.admin]
