@@ -115,14 +115,14 @@ resource "aws_autoscaling_group" "rancher_master" {
   vpc_zone_identifier = local.rancher2_master_subnet_ids
 
   launch_template {
-    id      = aws_launch_template.rancher_master.id
+    id      = aws_launch_template.rancher_master.0.id
     version = "$Latest"
   }
 }
 
 data "aws_instances" "rancher_master" {
   instance_tags = {
-    "aws:autoscaling:groupName" = aws_autoscaling_group.rancher_master.name
+    "aws:autoscaling:groupName" = aws_autoscaling_group.rancher_master.0.name
   }
 }
 
