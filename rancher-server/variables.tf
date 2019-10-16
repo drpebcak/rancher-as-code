@@ -14,6 +14,12 @@ variable "rancher_chart" {
   description = "Helm chart to use for Rancher install"
 }
 
+variable "certmanager_chart" {
+  type        = string
+  default     = "jetstack/cert-manager"
+  description = "Helm chart to use for cert-manager install"
+}
+
 variable "name" {
   type        = string
   default     = "rancher-demo"
