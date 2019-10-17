@@ -76,7 +76,7 @@ resource "aws_security_group" "rancher" {
 #############################
 resource "aws_launch_template" "rancher_master" {
   count         = local.use_asgs_for_rancher_infra ? 1 : 0
-  name_prefix   = local.name
+  name_prefix   = "${local.name}-master"
   image_id      = data.aws_ami.ubuntu.id
   instance_type = local.instance_type
   key_name      = aws_key_pair.ssh.id
@@ -100,7 +100,39 @@ resource "aws_launch_template" "rancher_master" {
   }
 
   tags = {
-    Name        = "${local.name}-master-${count.index}"
+    Name        = "${local.name}-master"
+    DoNotDelete = "true"
+    Owner       = "EIO_Demo"
+  }
+}
+
+resource "aws_launch_template" "rancher_worker" {
+  count         = local.use_asgs_for_rancher_infra ? 1 : 0
+  name_prefix   = "${local.name}-worker"
+  image_id      = data.aws_ami.ubuntu.id
+  instance_type = local.instance_type
+  key_name      = aws_key_pair.ssh.id
+
+  user_data = base64encode(templatefile("${path.module}/files/cloud-config.yaml", { extra_ssh_keys = var.extra_ssh_keys }))
+
+  block_device_mappings {
+    device_name = "/dev/sda1"
+
+    ebs {
+      encrypted   = true
+      volume_type = "gp2"
+      volume_size = "50"
+    }
+  }
+
+  network_interfaces {
+    associate_public_ip_address = true
+    delete_on_termination       = true
+    security_groups             = [aws_security_group.rancher.id]
+  }
+
+  tags = {
+    Name        = "${local.name}-master"
     DoNotDelete = "true"
     Owner       = "EIO_Demo"
   }
@@ -108,7 +140,7 @@ resource "aws_launch_template" "rancher_master" {
 
 resource "aws_autoscaling_group" "rancher_master" {
   count               = local.use_asgs_for_rancher_infra ? 1 : 0
-  name_prefix         = local.name
+  name_prefix         = "${local.name}-master"
   desired_capacity    = local.master_node_count
   max_size            = local.master_node_count
   min_size            = local.master_node_count
@@ -121,11 +153,21 @@ resource "aws_autoscaling_group" "rancher_master" {
 }
 
 resource "aws_autoscaling_group" "rancher_worker" {
+  count               = local.use_asgs_for_rancher_infra ? 1 : 0
+  name_prefix         = "${local.name}-worker"
+  desired_capacity    = local.worker_node_count
+  max_size            = local.worker_node_count
+  min_size            = local.worker_node_count
+  vpc_zone_identifier = local.rancher2_worker_subnet_ids
+
+  launch_template {
+    id      = aws_launch_template.rancher_worker.0.id
+    version = "$Latest"
   }
 }
 
 resource "aws_instance" "rancher_master" {
-  count         = local.use_asgs_for_rancher_infra ? 0 : local.master_node_count
+  count         = local.master_node_count
   ami           = data.aws_ami.ubuntu.id
   instance_type = local.instance_type
   key_name      = aws_key_pair.ssh.id
@@ -227,7 +269,7 @@ resource "null_resource" "wait_for_docker" {
   count = local.master_node_count + local.worker_node_count
 
   triggers = {
-    instance_ids = local.use_asgs_for_rancher_infra ? join(",", concat(data.aws_instances.rancher_master.ids, aws_instance.rancher_worker.*.id)) : join(",", concat(aws_instance.rancher_master.*.id, aws_instance.rancher_worker.*.id))
+    instance_ids = local.use_asgs_for_rancher_infra ? join(",", concat(data.aws_instances.rancher_worker.ids, data.aws_instances.rancher_master.ids)) : join(",", concat(aws_instance.rancher_master.*.id, aws_instance.rancher_worker.*.id))
   }
 
   provisioner "local-exec" {

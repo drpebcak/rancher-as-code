@@ -16,7 +16,7 @@ resource "rke_cluster" "rancher_server" {
   }
 
   dynamic nodes {
-    for_each = aws_instance.rancher_worker
+    for_each = local.worker_instances_ips
     content {
       address          = nodes.value.public_ip
       internal_address = nodes.value.private_ip

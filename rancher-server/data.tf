@@ -59,3 +59,9 @@ data "aws_instances" "rancher_master" {
   }
 }
 
+data "aws_instances" "rancher_worker" {
+  filter {
+    name   = "tag:aws:autoscaling:groupName"
+    values = [aws_autoscaling_group.rancher_worker.0.name]
+  }
+}
