@@ -47,11 +47,21 @@ data "helm_repository" "jetstack" {
   url  = "https://charts.jetstack.io"
 }
 
-data "template_file" "cloud_config" {
-  template = file("${path.module}/files/cloud-config.yaml")
-}
-
 data "rancher2_user" "admin" {
   username   = "admin"
   depends_on = [rancher2_bootstrap.admin]
+}
+
+data "aws_instances" "rancher_master" {
+  filter {
+    name   = "tag:aws:autoscaling:groupName"
+    values = [aws_autoscaling_group.rancher_master.0.name]
+  }
+}
+
+data "aws_instances" "rancher_worker" {
+  filter {
+    name   = "tag:aws:autoscaling:groupName"
+    values = [aws_autoscaling_group.rancher_worker.0.name]
+  }
 }

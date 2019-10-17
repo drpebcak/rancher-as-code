@@ -40,12 +40,13 @@ module "rancher_server" {
 | certmanager\_version | Version of cert-manager to install | string | `"0.10.0"` | no |
 | creds\_output\_path | Where to save the id_rsa config file. Should end in a forward slash `/` . | string | `"./"` | no |
 | domain |  | string | `"eng.rancher.space"` | no |
+| extra\_ssh\_keys | Extra ssh keys to inject into Rancher instances | list | `[]` | no |
 | github\_client\_id | GitHub client ID for Rancher to use, if using GH auth | string | `""` | no |
 | github\_client\_secret | GitHub client secret for Rancher to use, if using GH auth | string | `""` | no |
 | instance\_ssh\_user | Username for sshing into instances | string | `"ubuntu"` | no |
 | instance\_type |  | string | `"t3.large"` | no |
 | le\_email | LetsEncrypt email address to use | string | `"none@none.com"` | no |
-| master\_node\_count |  | number | `"3"` | no |
+| master\_node\_count | Number of master nodes to launch | number | `"3"` | no |
 | name | Name for deployment | string | `"rancher-demo"` | no |
 | r53\_domain | DNS domain for Route53 zone (defaults to domain if unset) | string | `""` | no |
 | rancher2\_extra\_allowed\_gh\_principals | List of principals in form github_user://IDNUM to be given Rancher access | list | `[]` | no |
@@ -56,13 +57,14 @@ module "rancher_server" {
 | rancher2\_master\_subnet\_ids | List of subnet ids for Rancher master nodes | list | `[]` | no |
 | rancher2\_worker\_subnet\_ids | List of subnet ids for Rancher worker nodes | list | `[]` | no |
 | rancher\_chart | Helm chart to use for Rancher install | string | `"rancher-stable/rancher"` | no |
+| rancher\_nodes\_in\_asgs | Control whether to put Rancher nodes in ASGs | bool | `"true"` | no |
 | rancher\_password |  | string | n/a | yes |
-| rancher\_version | Version of Rancher to install | string | `"2.2.8"` | no |
+| rancher\_version | Version of Rancher to install | string | `"2.2.9"` | no |
 | rke\_backups\_region | Region to perform backups to S3 in. Defaults to aws_region | string | `""` | no |
 | rke\_backups\_s3\_endpoint | Override for S3 endpoint to use for backups | string | `""` | no |
 | use\_default\_vpc | Should the default VPC for the region selected be used for Rancher | bool | `"true"` | no |
 | vpc\_id | If use_default_vpc is false, the vpc id that Rancher should use | string | `"null"` | no |
-| worker\_node\_count |  | number | `"3"` | no |
+| worker\_node\_count | Number of worker nodes to launch | number | `"3"` | no |
 
 ## Outputs
 

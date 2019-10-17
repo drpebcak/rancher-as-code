@@ -31,8 +31,8 @@ resource "helm_release" "cert_manager" {
 # install rancher
 resource "helm_release" "rancher" {
   name      = "rancher"
-  chart     = "v${var.rancher_chart}"
-  version   = local.rancher_version
+  chart     = var.rancher_chart
+  version   = "v${local.rancher_version}"
   namespace = "cattle-system"
 
   set {

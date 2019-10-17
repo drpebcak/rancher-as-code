@@ -4,8 +4,14 @@ variable "rancher_password" {
 
 variable "rancher_version" {
   type        = string
-  default     = "2.2.8"
+  default     = "2.2.9"
   description = "Version of Rancher to install"
+}
+
+variable "extra_ssh_keys" {
+  type        = list
+  default     = []
+  description = "Extra ssh keys to inject into Rancher instances"
 }
 
 variable "rancher_chart" {
@@ -61,13 +67,21 @@ variable "instance_type" {
 }
 
 variable "master_node_count" {
-  type    = number
-  default = 3
+  type        = number
+  default     = 3
+  description = "Number of master nodes to launch"
 }
 
 variable "worker_node_count" {
-  type    = number
-  default = 3
+  type        = number
+  default     = 3
+  description = "Number of worker nodes to launch"
+}
+
+variable "rancher_nodes_in_asgs" {
+  type        = bool
+  default     = true
+  description = "Control whether to put Rancher nodes in ASGs"
 }
 
 variable "instance_ssh_user" {
