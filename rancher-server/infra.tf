@@ -167,7 +167,7 @@ resource "aws_autoscaling_group" "rancher_worker" {
 }
 
 resource "aws_instance" "rancher_master" {
-  count         = local.master_node_count
+  count         = local.use_asgs_for_rancher_infra ? 0 : local.master_node_count
   ami           = data.aws_ami.ubuntu.id
   instance_type = local.instance_type
   key_name      = aws_key_pair.ssh.id
@@ -190,7 +190,7 @@ resource "aws_instance" "rancher_master" {
 }
 
 resource "aws_instance" "rancher_worker" {
-  count         = local.worker_node_count
+  count         = local.use_asgs_for_rancher_infra ? 0 : local.worker_node_count
   ami           = data.aws_ami.ubuntu.id
   instance_type = local.instance_type
   key_name      = aws_key_pair.ssh.id

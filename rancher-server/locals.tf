@@ -5,8 +5,8 @@ locals {
   domain            = var.domain
   r53_domain        = length(var.r53_domain) > 0 ? var.r53_domain : local.domain
   instance_type     = var.instance_type
-  master_node_count = local.use_asgs_for_rancher_infra ? 0 : var.master_node_count
-  worker_node_count = local.use_asgs_for_rancher_infra ? 0 : var.worker_node_count
+  master_node_count = var.master_node_count
+  worker_node_count = var.worker_node_count
 
   rancher2_auth_config_github_count   = var.rancher2_github_auth_enabled ? 1 : 0
   rancher2_auth_github_user           = length(var.rancher2_github_auth_user) > 0 ? [var.rancher2_github_auth_user] : []
