@@ -5,7 +5,7 @@ resource "rke_cluster" "rancher_server" {
   depends_on = [null_resource.wait_for_docker]
 
   dynamic nodes {
-    for_each = local.use_asgs_for_rancher_infra ? data.aws_instances.rancher_master.* : concat([], aws_instance.rancher_master)
+    for_each = local.master_instances_ips
     content {
       address          = nodes.value.public_ip
       internal_address = nodes.value.private_ip
