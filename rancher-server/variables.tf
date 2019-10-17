@@ -67,13 +67,15 @@ variable "instance_type" {
 }
 
 variable "master_node_count" {
-  type    = number
-  default = 3
+  type        = number
+  default     = 3
+  description = "Number of master nodes to launch"
 }
 
 variable "worker_node_count" {
-  type    = number
-  default = 3
+  type        = number
+  default     = 3
+  description = "Number of worker nodes to launch"
 }
 
 variable "instance_ssh_user" {

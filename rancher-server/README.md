@@ -46,7 +46,7 @@ module "rancher_server" {
 | instance\_ssh\_user | Username for sshing into instances | string | `"ubuntu"` | no |
 | instance\_type |  | string | `"t3.large"` | no |
 | le\_email | LetsEncrypt email address to use | string | `"none@none.com"` | no |
-| master\_node\_count |  | number | `"3"` | no |
+| master\_node\_count | Number of master nodes to launch | number | `"3"` | no |
 | name | Name for deployment | string | `"rancher-demo"` | no |
 | r53\_domain | DNS domain for Route53 zone (defaults to domain if unset) | string | `""` | no |
 | rancher2\_extra\_allowed\_gh\_principals | List of principals in form github_user://IDNUM to be given Rancher access | list | `[]` | no |
@@ -63,7 +63,7 @@ module "rancher_server" {
 | rke\_backups\_s3\_endpoint | Override for S3 endpoint to use for backups | string | `""` | no |
 | use\_default\_vpc | Should the default VPC for the region selected be used for Rancher | bool | `"true"` | no |
 | vpc\_id | If use_default_vpc is false, the vpc id that Rancher should use | string | `"null"` | no |
-| worker\_node\_count |  | number | `"3"` | no |
+| worker\_node\_count | Number of worker nodes to launch | number | `"3"` | no |
 
 ## Outputs
 
