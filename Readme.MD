@@ -1,10 +1,10 @@
 # Rancher as Code
 
-### The contents of this repository are currently being rewritten into discreet modules. Expect some breakage while this is happening!
+### The contents of this repository are currently being rewritten into discreet modules. Expect some breakage while this is happening! The original work can be found here: https://github.com/drpebcak/rancher-as-code/tree/infra-as-code-demo
 
 This repository contains:
 
-1. An example on how to set up rancher server in an HA configuration using terraform.
+1. ~~An example on how to set up rancher server in an HA configuration using terraform.~~ This is now a separate module that can be found at https://github.com/drpebcak/terraform-rancher-server
 2. How to provision a cluster for workloads and attach that to rancher using terraform
 3. How to manage a provisioned cluster using rancher and terraform
 4. How to deploy applications into the cluster using terraform
