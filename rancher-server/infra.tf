@@ -120,10 +120,7 @@ resource "aws_autoscaling_group" "rancher_master" {
   }
 }
 
-data "aws_instances" "rancher_master" {
-  filter {
-    name   = "tag:aws:autoscaling:groupName"
-    values = [aws_autoscaling_group.rancher_master.0.name]
+resource "aws_autoscaling_group" "rancher_worker" {
   }
 }
 

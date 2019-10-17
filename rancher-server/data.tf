@@ -51,3 +51,11 @@ data "rancher2_user" "admin" {
   username   = "admin"
   depends_on = [rancher2_bootstrap.admin]
 }
+
+data "aws_instances" "rancher_master" {
+  filter {
+    name   = "tag:aws:autoscaling:groupName"
+    values = [aws_autoscaling_group.rancher_master.0.name]
+  }
+}
+
