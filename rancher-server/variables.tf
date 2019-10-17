@@ -78,6 +78,12 @@ variable "worker_node_count" {
   description = "Number of worker nodes to launch"
 }
 
+variable "rancher_nodes_in_asgs" {
+  type        = bool
+  default     = true
+  description = "Control whether to put Rancher nodes in ASGs"
+}
+
 variable "instance_ssh_user" {
   type        = string
   default     = "ubuntu"
