@@ -58,7 +58,7 @@ module "rancher_server" {
 | rancher2\_worker\_subnet\_ids | List of subnet ids for Rancher worker nodes | list | `[]` | no |
 | rancher\_chart | Helm chart to use for Rancher install | string | `"rancher-stable/rancher"` | no |
 | rancher\_password |  | string | n/a | yes |
-| rancher\_version | Version of Rancher to install | string | `"2.2.8"` | no |
+| rancher\_version | Version of Rancher to install | string | `"2.2.9"` | no |
 | rke\_backups\_region | Region to perform backups to S3 in. Defaults to aws_region | string | `""` | no |
 | rke\_backups\_s3\_endpoint | Override for S3 endpoint to use for backups | string | `""` | no |
 | use\_default\_vpc | Should the default VPC for the region selected be used for Rancher | bool | `"true"` | no |
